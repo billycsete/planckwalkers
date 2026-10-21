@@ -3,24 +3,24 @@
   themes: false;
 }
 
-/* Guild theme: dark navy with WoW-style gold accents */
+/* Guild theme: deep sea-map teal, with gold, bronze and arcane blue from the logo */
 @plugin "daisyui/theme" {
   name: "planckwalkers";
   default: true;
   prefersdark: true;
   color-scheme: dark;
-  --color-base-100: oklch(22% 0.03 260);
-  --color-base-200: oklch(18% 0.03 260);
-  --color-base-300: oklch(14% 0.03 260);
-  --color-base-content: oklch(92% 0.02 85);
-  --color-primary: oklch(76% 0.13 85);
-  --color-primary-content: oklch(20% 0.03 260);
-  --color-secondary: oklch(62% 0.14 250);
-  --color-secondary-content: oklch(98% 0.01 250);
-  --color-accent: oklch(68% 0.16 150);
-  --color-accent-content: oklch(18% 0.03 150);
-  --color-neutral: oklch(30% 0.03 260);
-  --color-neutral-content: oklch(92% 0.02 85);
+  --color-base-100: oklch(30% 0.05 220);
+  --color-base-200: oklch(25% 0.045 220);
+  --color-base-300: oklch(20% 0.04 220);
+  --color-base-content: oklch(93% 0.03 85);
+  --color-primary: oklch(80% 0.15 80);
+  --color-primary-content: oklch(24% 0.05 60);
+  --color-secondary: oklch(60% 0.09 60);
+  --color-secondary-content: oklch(97% 0.02 85);
+  --color-accent: oklch(74% 0.13 225);
+  --color-accent-content: oklch(20% 0.04 230);
+  --color-neutral: oklch(32% 0.05 60);
+  --color-neutral-content: oklch(93% 0.03 85);
   --color-info: oklch(70% 0.12 230);
   --color-info-content: oklch(18% 0.03 230);
   --color-success: oklch(70% 0.15 150);
