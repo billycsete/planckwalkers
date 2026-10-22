@@ -29,8 +29,11 @@ const TRACK_PAD = 24
 const MONTH_ROW = 28
 const DAY_ROW = 24
 const EVENT_ROW = 36
+const LEVEL_ROW = 32
 const MILESTONE_ROW = 44
-const HEADER_HEIGHT = MONTH_ROW + DAY_ROW + EVENT_ROW + MILESTONE_ROW
+const HEADER_HEIGHT = MONTH_ROW + DAY_ROW + EVENT_ROW + LEVEL_ROW + MILESTONE_ROW
+// Closest two level numbers can sit before the later one drops its label
+const LEVEL_LABEL_GAP = 20
 const CHARACTER_ROW = 56
 
 // Work in whole UTC days so daylight saving never shifts a marker
@@ -58,8 +61,16 @@ const milestones = checkpoints.map((c) => ({ ...c, day: toDay(c.date), level: Ma
 const nextMilestone = milestones.find((m) => m.day >= today) ?? milestones[milestones.length - 1]
 const launch = events.find((e) => e.label === 'WoW Forever')
 
-// The planned pace: level 5 on launch day, then each checkpoint's level by its date
-const pace = [...(launch ? [{ day: launch.day, level: 5 }] : []), ...milestones]
+// The planned pace: level 0 at launch, level 5 by the end of launch day, then each checkpoint's level by its date
+const pace = [
+  ...(launch
+    ? [
+        { day: launch.day, level: 0 },
+        { day: launch.day + 1, level: 5 },
+      ]
+    : []),
+  ...milestones,
+]
 
 // The day the plan expects a character to reach a level, interpolated between pace points.
 // Levels below the first point sit on launch day; anything past the last sits on the final checkpoint.
@@ -72,6 +83,20 @@ function expectedDay(level: number) {
   }
   return pace[pace.length - 1].day
 }
+
+// Every level from 0 to 60 at its expected day. Levels 1–4 crowd into launch day, so a label
+// is dropped when it would sit too close to the last one shown; its tick still marks the spot.
+const checkpointLevels = new Set(milestones.map((m) => m.level))
+const levels = (() => {
+  let lastLabelX = -Infinity
+  return Array.from({ length: 61 }, (_, level) => {
+    const day = expectedDay(level)
+    const x = dayX(day)
+    const labeled = x - lastLabelX >= LEVEL_LABEL_GAP
+    if (labeled) lastLabelX = x
+    return { level, day, x, labeled, checkpoint: checkpointLevels.has(level) }
+  })
+})()
 
 // Release stands out in gold; anything not listed falls back to bronze
 const eventTones: Record<string, string> = {
@@ -235,6 +260,33 @@ export default function Timeline() {
                   >
                     {/* Keep the label in view, just clear of the pinned name column, while the banner is on screen */}
                     <span className="sticky left-38 px-3 whitespace-nowrap sm:left-46">{e.label}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Expected level, one tick per level along a rail from launch to 60 */}
+              <div className="relative" style={{ height: LEVEL_ROW }}>
+                <div
+                  className="absolute bottom-2 h-px bg-base-content/20"
+                  style={{ left: levels[0].x, width: levels[levels.length - 1].x - levels[0].x }}
+                />
+                {levels.map((l) => (
+                  <div
+                    key={l.level}
+                    className="absolute bottom-2 flex -translate-x-1/2 flex-col items-center"
+                    style={{ left: l.x }}
+                    title={`Level ${l.level} · ${formatDate(new Date(Math.round(l.day) * DAY_MS).toISOString().slice(0, 10))}`}
+                  >
+                    {l.labeled && (
+                      <span
+                        className={`mb-0.5 text-[10px] leading-none ${
+                          l.checkpoint ? 'font-bold text-primary' : 'text-base-content/60'
+                        }`}
+                      >
+                        {l.level}
+                      </span>
+                    )}
+                    <span className={`w-px ${l.labeled ? 'h-2' : 'h-1'} ${l.checkpoint ? 'bg-primary' : 'bg-base-content/40'}`} />
                   </div>
                 ))}
               </div>
