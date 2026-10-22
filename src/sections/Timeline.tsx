@@ -121,11 +121,12 @@ export default function Timeline() {
   }, [])
 
   return (
-    <section id="timeline" className="mx-auto w-full max-w-5xl px-4 py-12">
+    // The chart fills the browser up to 1600px; the intro stays in a narrower 1200px column
+    <section id="timeline" className="mx-auto w-full max-w-[1600px] px-4 py-12">
       {/* Keep this copy in sync with docs/content/forever-together-plan.md */}
-      <header className="mb-8 max-w-3xl">
+      <header className="mx-auto mb-8 max-w-[1200px]">
         <h2 className="mb-3 text-3xl font-bold text-white">Leveling Timeline</h2>
-        <p className="text-base-content/80">
+        <p className="max-w-3xl text-base-content/80">
           The dates use roughly how long each level took a relaxed player in Classic, sped up by rested XP doubling
           monster-kill XP. That works out to about 105 hours played from 5 to 60. WoW Forever's numbers aren't known
           yet, so check the pace at the first few checkpoints and shift later dates if needed.
