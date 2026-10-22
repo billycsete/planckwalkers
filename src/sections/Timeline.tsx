@@ -247,7 +247,9 @@ export default function Timeline() {
               {/* Character rows, with a faint line per day */}
               <div
                 style={{
-                  backgroundImage: `repeating-linear-gradient(to right, transparent 0 ${DAY_WIDTH - 1}px, color-mix(in oklab, var(--color-base-content) 6%, transparent) ${DAY_WIDTH - 1}px ${DAY_WIDTH}px)`,
+                  // Tile one 1px line per day; a repeating gradient anti-aliases and drops lines at some offsets
+                  backgroundImage: `linear-gradient(to right, color-mix(in oklab, var(--color-base-content) 6%, transparent) 1px, transparent 1px)`,
+                  backgroundSize: `${DAY_WIDTH}px 100%`,
                   backgroundPosition: `${TRACK_PAD}px 0`,
                 }}
               >
