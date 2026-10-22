@@ -1,4 +1,4 @@
-import mapBg from '../assets/map-bg.png'
+import heroBg from '../assets/backgrounds/ironforge.webp'
 import logo from '../assets/plankwalkers-logo-transparent.png'
 
 export default function Hero() {
@@ -6,10 +6,11 @@ export default function Hero() {
     <section
       id="top"
       className="hero relative min-h-[60vh] bg-cover bg-center"
-      style={{ backgroundImage: `url(${mapBg})` }}
+      style={{ backgroundImage: `url(${heroBg})` }}
     >
-      {/* Fade the map into the page background below */}
-      <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-base-200" />
+      {/* Lightly tint the bright snow, then fade into the page background below */}
+      <div className="absolute inset-0 bg-base-300/20" />
+      <div className="absolute inset-0 bg-linear-to-b from-transparent from-30% to-base-200" />
       <div className="hero-content relative py-10 text-center">
         <div className="flex max-w-2xl flex-col items-center">
           <h1 className="sr-only">Planckwalkers</h1>
