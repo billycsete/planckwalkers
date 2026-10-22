@@ -58,6 +58,21 @@ const milestones = checkpoints.map((c) => ({ ...c, day: toDay(c.date), level: Ma
 const nextMilestone = milestones.find((m) => m.day >= today) ?? milestones[milestones.length - 1]
 const launch = events.find((e) => e.label === 'WoW Forever')
 
+// The planned pace: level 5 on launch day, then each checkpoint's level by its date
+const pace = [...(launch ? [{ day: launch.day, level: 5 }] : []), ...milestones]
+
+// The day the plan expects a character to reach a level, interpolated between pace points.
+// Levels below the first point sit on launch day; anything past the last sits on the final checkpoint.
+function expectedDay(level: number) {
+  if (level <= pace[0].level) return pace[0].day
+  for (let i = 1; i < pace.length; i++) {
+    const a = pace[i - 1]
+    const b = pace[i]
+    if (level <= b.level) return a.day + ((level - a.level) / (b.level - a.level)) * (b.day - a.day)
+  }
+  return pace[pace.length - 1].day
+}
+
 // Release stands out in gold; anything not listed falls back to bronze
 const eventTones: Record<string, string> = {
   'Name Reservations': 'bg-info text-info-content',
@@ -106,11 +121,12 @@ export default function Timeline() {
   }, [])
 
   return (
-    <section id="timeline" className="mx-auto w-full max-w-5xl px-4 py-12">
+    // The chart fills the browser up to 1600px; the intro stays in a narrower 1200px column
+    <section id="timeline" className="mx-auto w-full max-w-[1600px] px-4 py-12">
       {/* Keep this copy in sync with docs/content/forever-together-plan.md */}
-      <header className="mb-8 max-w-3xl">
+      <header className="mx-auto mb-8 max-w-[1200px]">
         <h2 className="mb-3 text-3xl font-bold text-white">Leveling Timeline</h2>
-        <p className="text-base-content/80">
+        <p className="max-w-3xl text-base-content/80">
           The dates use roughly how long each level took a relaxed player in Classic, sped up by rested XP doubling
           monster-kill XP. That works out to about 105 hours played from 5 to 60. WoW Forever's numbers aren't known
           yet, so check the pace at the first few checkpoints and shift later dates if needed.
@@ -264,29 +280,37 @@ export default function Timeline() {
                   backgroundPosition: `${TRACK_PAD}px 0`,
                 }}
               >
-                {roster.map((character, i) => (
-                  <div
-                    key={character.name}
-                    className={`relative border-t border-base-content/10 ${i % 2 ? 'bg-base-200/40' : ''}`}
-                    style={{ height: CHARACTER_ROW }}
-                  >
+                {roster.map((character, i) => {
+                  // Placed where the plan expects their level, so ahead of the today line means ahead of pace
+                  const day = expectedDay(character.level)
+                  return (
                     <div
-                      className="tooltip tooltip-right absolute top-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
-                      style={{ left: dayX(today) }}
+                      key={character.name}
+                      className={`relative border-t border-base-content/10 ${i % 2 ? 'bg-base-200/40' : ''}`}
+                      style={{ height: CHARACTER_ROW }}
                     >
-                      <div className="tooltip-content p-3 text-left text-xs">
-                        <p className="font-semibold">{character.name}</p>
-                        <p>
-                          Level {character.level} {character.race} {character.className}
-                        </p>
-                        <p className="opacity-70">{character.roles.join(', ')}</p>
+                      <div
+                        className="tooltip tooltip-right absolute top-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
+                        style={{ left: dayX(day) }}
+                      >
+                        <div className="tooltip-content p-3 text-left text-xs">
+                          <p className="font-semibold">{character.name}</p>
+                          <p>
+                            Level {character.level} {character.race} {character.className}
+                          </p>
+                          <p className="opacity-70">{character.roles.join(', ')}</p>
+                          <p className="opacity-70">
+                            Plan reaches level {character.level} on{' '}
+                            {formatDate(new Date(Math.round(day) * DAY_MS).toISOString().slice(0, 10))}
+                          </p>
+                        </div>
+                        <button type="button" className="rounded-full" aria-label={`${character.name}, level ${character.level}`}>
+                          <ClassBadge character={character} />
+                        </button>
                       </div>
-                      <button type="button" className="rounded-full" aria-label={`${character.name}, level ${character.level}`}>
-                        <ClassBadge character={character} />
-                      </button>
                     </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
 
               {/* Vertical guides drawn over everything below the date header */}
