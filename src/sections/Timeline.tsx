@@ -56,12 +56,12 @@ const monthFormat = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'num
 const events = keyDates.map((e) => ({ ...e, day: toDay(e.start), endDay: e.end ? toDay(e.end) : endDay }))
 const milestones = checkpoints.map((c) => ({ ...c, day: toDay(c.date), level: Math.max(...c.dungeons.map((d) => d.level)) }))
 const nextMilestone = milestones.find((m) => m.day >= today) ?? milestones[milestones.length - 1]
-const launch = events.find((e) => e.label === 'WoW Forever released')
+const launch = events.find((e) => e.label === 'WoW Forever')
 
 // Release stands out in gold; anything not listed falls back to bronze
 const eventTones: Record<string, string> = {
-  'Name reservations': 'bg-info text-info-content',
-  'WoW Forever released': 'bg-primary text-primary-content',
+  'Name Reservations': 'bg-info text-info-content',
+  'WoW Forever': 'bg-primary text-primary-content',
 }
 
 function ClassBadge({ character }: { character: Character }) {
@@ -163,6 +163,17 @@ export default function Timeline() {
             </div>
 
             <div className="relative shrink-0" style={{ width: trackWidth }}>
+              {/* Weekend shading, from the day numbers down; drawn first so everything else sits on top */}
+              {days
+                .filter((d) => d.weekday === 0 || d.weekday === 6)
+                .map((d) => (
+                  <div
+                    key={d.day}
+                    className="pointer-events-none absolute bottom-0 bg-base-content/5"
+                    style={{ left: dayX(d.day) - DAY_WIDTH / 2, width: DAY_WIDTH, top: MONTH_ROW }}
+                  />
+                ))}
+
               {/* Months */}
               <div className="relative" style={{ height: MONTH_ROW }}>
                 {monthStarts.map((d) => (
@@ -225,7 +236,7 @@ export default function Timeline() {
                       <ul className="space-y-1 text-xs">
                         {m.dungeons.map((d) => (
                           <li key={d.name}>
-                            <span className="font-semibold">Lv {d.level}</span> · {d.name}
+                            <span className="font-semibold">Level {d.level}</span> · {d.name}
                             <span className="block opacity-70">
                               {d.zone} · {d.range}
                             </span>
@@ -235,10 +246,10 @@ export default function Timeline() {
                     </div>
                     <button
                       type="button"
-                      className="btn btn-outline btn-primary btn-xs rounded-full bg-base-100"
+                      className="btn btn-outline btn-primary btn-xs rounded-full bg-base-100 whitespace-nowrap"
                       aria-label={`Level ${m.level} checkpoint, ${formatDate(m.date)}`}
                     >
-                      Lv {m.level}
+                      Level {m.level}
                     </button>
                   </div>
                 ))}
