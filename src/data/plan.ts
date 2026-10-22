@@ -88,12 +88,11 @@ export const checkpoints: Checkpoint[] = [
   },
 ]
 
-// Game-wide dates that aren't part of the leveling plan itself; `end` marks a window rather than a single day
-export const keyDates: { date: string; end?: string; label: string }[] = [
-  { date: '2026-09-17', label: 'Beta begins' },
-  { date: '2026-10-23', label: 'Beta ends' },
-  { date: '2026-10-27', end: '2026-11-04', label: 'Name reservations' },
-  { date: '2026-11-04', label: 'WoW Forever launch' },
+// Game-wide windows that aren't part of the leveling plan itself; a window with no `end` runs to the end of the plan
+export const keyDates: { start: string; end?: string; label: string }[] = [
+  { start: '2026-09-17', end: '2026-10-23', label: 'Beta' },
+  { start: '2026-10-27', end: '2026-11-04', label: 'Name reservations' },
+  { start: '2026-11-04', label: 'WoW Forever released' },
 ]
 
 const dateFormat = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })

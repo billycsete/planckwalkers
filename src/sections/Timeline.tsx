@@ -1,5 +1,4 @@
 import { useEffect, useRef, type PointerEvent } from 'react'
-import { Flag, Rocket } from 'lucide-react'
 import druidIcon from '../assets/class-icons/druid_claws.png'
 import hunterIcon from '../assets/class-icons/hunter_bow.png'
 import mageIcon from '../assets/class-icons/mage_staff.png'
@@ -40,7 +39,7 @@ const now = new Date()
 const today = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / DAY_MS
 const endDay = toDay(checkpoints[checkpoints.length - 1].date)
 // Start when the beta opened
-const startDay = toDay(keyDates[0].date)
+const startDay = toDay(keyDates[0].start)
 const dayCount = endDay - startDay + 1
 const trackWidth = TRACK_PAD * 2 + dayCount * DAY_WIDTH
 
@@ -54,16 +53,15 @@ const days = Array.from({ length: dayCount }, (_, i) => {
 const monthStarts = days.filter((d, i) => i === 0 || d.date === 1)
 const monthFormat = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' })
 
-const events = keyDates.map((e) => ({ ...e, day: toDay(e.date) })).filter((e) => e.day >= startDay && e.day <= endDay)
+const events = keyDates.map((e) => ({ ...e, day: toDay(e.start), endDay: e.end ? toDay(e.end) : endDay }))
 const milestones = checkpoints.map((c) => ({ ...c, day: toDay(c.date), level: Math.max(...c.dungeons.map((d) => d.level)) }))
 const nextMilestone = milestones.find((m) => m.day >= today) ?? milestones[milestones.length - 1]
-const launch = events.find((e) => e.label === 'WoW Forever launch')
+const launch = events.find((e) => e.label === 'WoW Forever released')
 
-// Launch stands out in gold, windows like name reservations in blue, everything else in bronze
-function eventStyle(e: (typeof events)[number]) {
-  if (e === launch) return { badge: 'badge-primary', line: 'border-primary/70', icon: Rocket }
-  if (e.end) return { badge: 'badge-info', line: 'border-info/60', icon: Flag }
-  return { badge: 'badge-secondary', line: 'border-secondary/60', icon: Flag }
+// Release stands out in gold; anything not listed falls back to bronze
+const eventTones: Record<string, string> = {
+  'Name reservations': 'bg-info text-info-content',
+  'WoW Forever released': 'bg-primary text-primary-content',
 }
 
 function ClassBadge({ character }: { character: Character }) {
@@ -198,33 +196,20 @@ export default function Timeline() {
                 ))}
               </div>
 
-              {/* Game-wide key dates */}
+              {/* Game-wide windows, each a banner from its first day to its last */}
               <div className="relative" style={{ height: EVENT_ROW }}>
-                {/* Windows get a band running behind their flag to the closing day */}
-                {events.map(
-                  (e) =>
-                    e.end && (
-                      <div
-                        key={`${e.label}-window`}
-                        className="absolute top-2 h-5 rounded-r-full bg-info/20"
-                        style={{ left: dayX(e.day), width: dayX(toDay(e.end)) - dayX(e.day) }}
-                      />
-                    ),
-                )}
-                {events.map((e) => {
-                  const style = eventStyle(e)
-                  return (
-                    <span
-                      key={e.label}
-                      className={`badge badge-sm absolute top-2 z-10 gap-1 rounded-l-none whitespace-nowrap ${style.badge}`}
-                      style={{ left: dayX(e.day) }}
-                      title={e.end ? `${formatDate(e.date)} – ${formatDate(e.end)}` : formatDate(e.date)}
-                    >
-                      <style.icon className="size-3" />
-                      {e.label}
-                    </span>
-                  )
-                })}
+                {events.map((e) => (
+                  <div
+                    key={e.label}
+                    className={`absolute top-2 flex h-5 items-center rounded-full text-xs font-semibold ${eventTones[e.label] ?? 'bg-secondary text-secondary-content'}`}
+                    // Banners meet mid-day, so one that ends the day the next begins doesn't overlap it
+                    style={{ left: dayX(e.day) + 1, width: dayX(e.endDay) - dayX(e.day) - 2 }}
+                    title={`${formatDate(e.start)} – ${e.end ? formatDate(e.end) : 'onward'}`}
+                  >
+                    {/* Keep the label in view, just clear of the pinned name column, while the banner is on screen */}
+                    <span className="sticky left-38 px-3 whitespace-nowrap sm:left-46">{e.label}</span>
+                  </div>
+                ))}
               </div>
 
               {/* Plan checkpoints */}
@@ -292,25 +277,11 @@ export default function Timeline() {
               </div>
 
               {/* Vertical guides drawn over everything below the date header */}
-              {monthStarts.slice(1).map((d) => (
-                <div
-                  key={d.day}
-                  className="pointer-events-none absolute bottom-0 border-l border-base-content/15"
-                  style={{ left: dayX(d.day) - DAY_WIDTH / 2, top: 0 }}
-                />
-              ))}
               {milestones.map((m) => (
                 <div
                   key={m.date}
                   className="pointer-events-none absolute bottom-0 border-l border-dashed border-primary/40"
                   style={{ left: dayX(m.day), top: HEADER_HEIGHT - 4 }}
-                />
-              ))}
-              {events.map((e) => (
-                <div
-                  key={e.label}
-                  className={`pointer-events-none absolute bottom-0 border-l-2 ${eventStyle(e).line}`}
-                  style={{ left: dayX(e.day), top: MONTH_ROW + DAY_ROW + 8 }}
                 />
               ))}
               <div
