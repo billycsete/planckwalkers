@@ -26,7 +26,7 @@ export default function PlanModal({ ref }: { ref: Ref<HTMLDialogElement> }) {
         </header>
         <div className="space-y-8 px-10 pt-4 pb-14 text-base-content/80 sm:px-14">
           <section>
-            <h3 className="mb-2 text-lg font-semibold text-primary">How the plan works</h3>
+            <h3 className="mb-2 text-lg font-semibold text-primary">How the Plan Works</h3>
             <p>
               WoW is more fun when we get to play together! This plan aims to give the team a guideline for a
               relaxed leveling plan that keeps us all around the same level with key check-in points where we could
@@ -34,7 +34,7 @@ export default function PlanModal({ ref }: { ref: Ref<HTMLDialogElement> }) {
             </p>
           </section>
           <section>
-            <h3 className="mb-2 text-lg font-semibold text-primary">Keys to success</h3>
+            <h3 className="mb-2 text-lg font-semibold text-primary">Keys to Success</h3>
             <ul className="list-disc space-y-2 pl-5">
               <li>
                 <strong>Everyone roll a character on an Alliance race on a PvE server.</strong> PvP is a sweat fest
@@ -64,7 +64,7 @@ export default function PlanModal({ ref }: { ref: Ref<HTMLDialogElement> }) {
             </ul>
           </section>
           <section>
-            <h3 className="mb-2 text-lg font-semibold text-primary">Alliance notes</h3>
+            <h3 className="mb-2 text-lg font-semibold text-primary">Alliance Faction Notes</h3>
             <ul className="list-disc space-y-2 pl-5">
               <li>
                 <strong>Skipped: Ragefire Chasm.</strong> It's inside Orgrimmar, so it's left off the plan. Ruins of Lordaeron is the
