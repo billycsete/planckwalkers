@@ -6,7 +6,8 @@ import { checkpoints, formatDate } from '../data/plan.ts'
 export default function PlanModal({ ref }: { ref: Ref<HTMLDialogElement> }) {
   return (
     <dialog ref={ref} className="modal" aria-labelledby="plan-modal-title">
-      <div className="modal-box max-w-3xl p-0">
+      {/* Cap the height below the viewport so the centered box keeps a gap above and below */}
+      <div className="modal-box max-h-[calc(100dvh-2rem)] max-w-3xl p-0 sm:max-h-[calc(100dvh-4rem)]">
         <header
           className="relative bg-cover bg-center px-10 pt-14 pb-10 sm:px-14"
           style={{ backgroundImage: `url(${headerBg})` }}
