@@ -1,7 +1,12 @@
 import heroBg from '../assets/backgrounds/ironforge.webp'
+import { useRef } from 'react'
+import { Info } from 'lucide-react'
 import logo from '../assets/plankwalkers-logo-transparent.png'
+import PlanModal from '../components/PlanModal.tsx'
 
 export default function Hero() {
+  const planModalRef = useRef<HTMLDialogElement>(null)
+
   return (
     <section
       id="top"
@@ -22,11 +27,18 @@ export default function Hero() {
           <p className="max-w-xl py-6 text-lg text-shadow-md">
             A small guild of friends on US Stormrage, leveling together in WoW Forever from launch on Nov 4, 2026.
           </p>
-          <a href="#timeline" className="btn btn-primary">
-            See our progress
-          </a>
+          <button
+            type="button"
+            className="btn btn-primary"
+            aria-haspopup="dialog"
+            onClick={() => planModalRef.current?.showModal()}
+          >
+            Forever Together Plan
+            <Info className="size-4" />
+          </button>
         </div>
       </div>
+      <PlanModal ref={planModalRef} />
     </section>
   )
 }
