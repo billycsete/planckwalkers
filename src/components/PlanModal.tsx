@@ -5,7 +5,8 @@ import { checkpoints, formatDate } from '../data/plan.ts'
 
 export default function PlanModal({ ref }: { ref: Ref<HTMLDialogElement> }) {
   return (
-    <dialog ref={ref} className="modal" aria-labelledby="plan-modal-title">
+    // Darken daisyUI's 40% scrim so the page behind recedes further
+    <dialog ref={ref} className="modal open:bg-black/70" aria-labelledby="plan-modal-title">
       {/* Cap the height below the viewport so the centered box keeps a gap above and below */}
       <div className="modal-box max-h-[calc(100dvh-2rem)] max-w-3xl p-0 sm:max-h-[calc(100dvh-4rem)]">
         <header
