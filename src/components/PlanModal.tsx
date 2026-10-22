@@ -1,89 +1,7 @@
 import type { Ref } from 'react'
 import { X } from 'lucide-react'
 import headerBg from '../assets/backgrounds/forever-skyborn.webp'
-
-// Each checkpoint is a date the group meets up; some have more than one dungeon to run
-const checkpoints = [
-  { date: 'Dec 5, 2026', dungeons: [{ level: 16, name: 'Hall of Thanes (new)', range: '13–18', zone: 'Ironforge, Dun Morogh' }] },
-  { date: 'Dec 12, 2026', dungeons: [{ level: 18, name: 'Ruins of Lordaeron (new)', range: '15–20', zone: 'Tirisfal Glades' }] },
-  {
-    date: 'Dec 19, 2026',
-    dungeons: [
-      { level: 19, name: 'Deadmines', range: '16–21*', zone: 'Westfall' },
-      { level: 20, name: 'Wailing Caverns', range: '17–22*', zone: 'The Barrens' },
-      { level: 21, name: 'Shadowfang Keep', range: '18–23*', zone: 'Silverpine Forest' },
-    ],
-  },
-  { date: 'Jan 2, 2027', dungeons: [{ level: 25, name: 'Blackfathom Deeps', range: '22–27*', zone: 'Ashenvale' }] },
-  {
-    date: 'Jan 9, 2027',
-    dungeons: [
-      { level: 26, name: 'Stormwind Stockade', range: '23–28*', zone: 'Stormwind City' },
-      { level: 27, name: 'Razorfen Kraul', range: '24–29*', zone: 'The Barrens' },
-      { level: 27, name: 'Excavation Site: Wetlands (new)', range: '24–29', zone: 'Wetlands' },
-    ],
-  },
-  { date: 'Jan 16, 2027', dungeons: [{ level: 28, name: 'Gnomeregan', range: '25–30*', zone: 'Dun Morogh' }] },
-  { date: 'Jan 23, 2027', dungeons: [{ level: 31, name: 'City of Dalaran (new)', range: '28–33', zone: 'Alterac Mountains' }] },
-  {
-    date: 'Jan 30, 2027',
-    dungeons: [{ level: 33, name: 'Scarlet Monastery, all four wings', range: '30–35*', zone: 'Tirisfal Glades' }],
-  },
-  {
-    date: 'Feb 20, 2027',
-    dungeons: [
-      { level: 37, name: 'Razorfen Downs', range: '34–39*', zone: 'The Barrens' },
-      { level: 38, name: 'Uldaman', range: '35–40*', zone: 'Badlands' },
-      { level: 38, name: 'The Drowned City (new)', range: '35–40', zone: 'Off the Stranglethorn Vale coast' },
-    ],
-  },
-  {
-    date: 'Apr 3, 2027',
-    dungeons: [
-      { level: 45, name: "Zul'Farrak", range: '42–47*', zone: 'Tanaris' },
-      { level: 45, name: 'Maraudon', range: '42–47*', zone: 'Desolace' },
-    ],
-  },
-  {
-    date: 'Apr 24, 2027',
-    dungeons: [
-      { level: 48, name: 'Sunken Temple', range: '45–50*', zone: 'Swamp of Sorrows' },
-      { level: 48, name: "Krol'dok Stronghold (new, outdoor)", range: '40–55', zone: 'Riverglades' },
-    ],
-  },
-  {
-    date: 'May 15, 2027',
-    dungeons: [
-      { level: 51, name: 'Blackrock Depths', range: '48–53*', zone: 'Blackrock Mountain' },
-      {
-        level: 51,
-        name: 'Alcaz Prison (new)',
-        range: '48–53',
-        zone: 'Alcaz Island, Dustwallow Marsh (likely, not yet confirmed)',
-      },
-    ],
-  },
-  { date: 'Jun 19, 2027', dungeons: [{ level: 56, name: 'Lower Blackrock Spire', range: '53–58*', zone: 'Blackrock Mountain' }] },
-  { date: 'Jul 3, 2027', dungeons: [{ level: 57, name: 'Dire Maul', range: '54–59*', zone: 'Feralas' }] },
-  {
-    date: 'Jul 10, 2027',
-    dungeons: [
-      { level: 58, name: 'Stratholme', range: '55–60*', zone: 'Eastern Plaguelands' },
-      { level: 58, name: 'Blackmaw Hold (new)', range: '55–60', zone: 'Azshara' },
-    ],
-  },
-  {
-    date: 'Jul 24, 2027',
-    dungeons: [
-      { level: 59, name: 'Scholomance', range: '57–60*', zone: 'Western Plaguelands' },
-      { level: 59, name: "Shaper's Terrace (new)", range: '58–60', zone: "Un'Goro Crater" },
-    ],
-  },
-  {
-    date: 'Jul 31, 2027',
-    dungeons: [{ level: 60, name: 'Upper Blackrock Spire, then raids', range: '60', zone: 'Blackrock Mountain' }],
-  },
-]
+import { checkpoints, formatDate } from '../data/plan.ts'
 
 export default function PlanModal({ ref }: { ref: Ref<HTMLDialogElement> }) {
   return (
@@ -184,7 +102,7 @@ export default function PlanModal({ ref }: { ref: Ref<HTMLDialogElement> }) {
                       <tr key={`${i}-${j}`}>
                         {j === 0 && (
                           <td rowSpan={checkpoint.dungeons.length} className="align-top whitespace-nowrap">
-                            {checkpoint.date}
+                            {formatDate(checkpoint.date)}
                           </td>
                         )}
                         <td>{dungeon.level}</td>

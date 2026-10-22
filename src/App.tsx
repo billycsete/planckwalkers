@@ -9,7 +9,7 @@ export default function App() {
         <Timeline />
       </main>
       <footer className="footer footer-center p-4 text-sm text-base-content/60">
-        <p>Planckwalkers · US Stormrage · Alliance</p>
+        <p>Planckwalkers · Alliance</p>
       </footer>
     </div>
   )
