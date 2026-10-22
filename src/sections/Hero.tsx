@@ -25,7 +25,7 @@ export default function Hero() {
             className="w-full max-w-xs sm:max-w-sm drop-shadow-[0_8px_24px_rgb(0_0_0/0.5)]"
           />
           <p className="max-w-xl py-6 text-lg text-shadow-md">
-            A small guild of friends on US Stormrage, leveling together in WoW Forever from launch on Nov 4, 2026.
+            A small guild of friends leveling together in WoW Forever from launch on Nov 4, 2026.
           </p>
           <button
             type="button"
