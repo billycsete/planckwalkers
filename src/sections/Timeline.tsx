@@ -1,3 +1,4 @@
+import { Castle } from 'lucide-react'
 import { useEffect, useRef, type PointerEvent } from 'react'
 import druidIcon from '../assets/class-icons/druid_claws.png'
 import hunterIcon from '../assets/class-icons/hunter_bow.png'
@@ -29,11 +30,12 @@ const TRACK_PAD = 24
 const MONTH_ROW = 28
 const DAY_ROW = 24
 const EVENT_ROW = 36
-const LEVEL_ROW = 32
-const MILESTONE_ROW = 44
-const HEADER_HEIGHT = MONTH_ROW + DAY_ROW + EVENT_ROW + LEVEL_ROW + MILESTONE_ROW
+const LEVEL_ROW = 48
+const HEADER_HEIGHT = MONTH_ROW + DAY_ROW + EVENT_ROW + LEVEL_ROW
 // Closest two level numbers can sit before the later one drops its label
 const LEVEL_LABEL_GAP = 20
+// Checkpoint pills are wider, so plain numbers keep further away from them
+const CHECKPOINT_LABEL_GAP = 32
 const CHARACTER_ROW = 56
 
 // Work in whole UTC days so daylight saving never shifts a marker
@@ -84,17 +86,22 @@ function expectedDay(level: number) {
   return pace[pace.length - 1].day
 }
 
-// Every level from 0 to 60 at its expected day. Levels 1–4 crowd into launch day, so a label
-// is dropped when it would sit too close to the last one shown; its tick still marks the spot.
-const checkpointLevels = new Set(milestones.map((m) => m.level))
+// Every level from 0 to 60 at its expected day. Checkpoint levels always show their pill; levels 1–4
+// crowd into launch day, so a plain number is dropped when it would sit too close to the last one
+// shown or to a checkpoint pill, and its tick still marks the spot.
+const checkpointByLevel = new Map(milestones.map((m) => [m.level, m]))
+const checkpointXs = milestones.map((m) => dayX(m.day))
 const levels = (() => {
   let lastLabelX = -Infinity
   return Array.from({ length: 61 }, (_, level) => {
     const day = expectedDay(level)
     const x = dayX(day)
-    const labeled = x - lastLabelX >= LEVEL_LABEL_GAP
+    const checkpoint = checkpointByLevel.get(level)
+    const labeled =
+      !!checkpoint ||
+      (x - lastLabelX >= LEVEL_LABEL_GAP && checkpointXs.every((cx) => Math.abs(cx - x) >= CHECKPOINT_LABEL_GAP))
     if (labeled) lastLabelX = x
-    return { level, day, x, labeled, checkpoint: checkpointLevels.has(level) }
+    return { level, day, x, labeled, checkpoint }
   })
 })()
 
@@ -186,8 +193,18 @@ export default function Timeline() {
           <div className="flex w-max">
             {/* Character names stay pinned while the dates scroll underneath */}
             <div className="sticky left-0 z-20 w-36 shrink-0 border-r border-base-content/10 bg-base-100 sm:w-44">
-              <div className="flex items-end px-4 pb-3 text-xs font-semibold tracking-wide text-base-content/50 uppercase" style={{ height: HEADER_HEIGHT }}>
-                Character
+              {/* Row headers for the date, phase and level rows */}
+              <div className="text-xs font-semibold tracking-wide text-base-content/50 uppercase">
+                <div className="flex items-center px-4" style={{ height: MONTH_ROW + DAY_ROW }}>
+                  Date
+                </div>
+                <div className="flex items-center px-4" style={{ height: EVENT_ROW }}>
+                  Phase
+                </div>
+                {/* Nudged up to line up with the level numbers rather than the rail beneath them */}
+                <div className="flex items-center px-4 pb-2" style={{ height: LEVEL_ROW }}>
+                  Level
+                </div>
               </div>
               {roster.map((character, i) => (
                 <div
@@ -264,63 +281,56 @@ export default function Timeline() {
                 ))}
               </div>
 
-              {/* Expected level, one tick per level along a rail from launch to 60 */}
+              {/* Expected level, one tick per level along a rail from launch to 60; checkpoints get a pill with their dungeons */}
               <div className="relative" style={{ height: LEVEL_ROW }}>
                 <div
                   className="absolute bottom-2 h-px bg-base-content/20"
                   style={{ left: levels[0].x, width: levels[levels.length - 1].x - levels[0].x }}
                 />
-                {levels.map((l) => (
-                  <div
-                    key={l.level}
-                    className="absolute bottom-2 flex -translate-x-1/2 flex-col items-center"
-                    style={{ left: l.x }}
-                    title={`Level ${l.level} · ${formatDate(new Date(Math.round(l.day) * DAY_MS).toISOString().slice(0, 10))}`}
-                  >
-                    {l.labeled && (
-                      <span
-                        className={`mb-0.5 text-[10px] leading-none ${
-                          l.checkpoint ? 'font-bold text-primary' : 'text-base-content/60'
-                        }`}
-                      >
-                        {l.level}
-                      </span>
-                    )}
-                    <span className={`w-px ${l.labeled ? 'h-2' : 'h-1'} ${l.checkpoint ? 'bg-primary' : 'bg-base-content/40'}`} />
-                  </div>
-                ))}
-              </div>
-
-              {/* Plan checkpoints */}
-              <div className="relative" style={{ height: MILESTONE_ROW }}>
-                {milestones.map((m) => (
-                  <div
-                    key={m.date}
-                    className="tooltip tooltip-bottom absolute top-1.5 z-10 -translate-x-1/2"
-                    style={{ left: dayX(m.day) }}
-                  >
-                    <div className="tooltip-content w-64 p-3 text-left">
-                      <p className="mb-1 text-xs font-semibold">{formatDate(m.date)}</p>
-                      <ul className="space-y-1 text-xs">
-                        {m.dungeons.map((d) => (
-                          <li key={d.name}>
-                            <span className="font-semibold">Level {d.level}</span> · {d.name}
-                            <span className="block opacity-70">
-                              {d.zone} · {d.range}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <button
-                      type="button"
-                      className="btn btn-outline btn-primary btn-xs rounded-full bg-base-100 whitespace-nowrap"
-                      aria-label={`Level ${m.level} checkpoint, ${formatDate(m.date)}`}
+                {levels.map((l) => {
+                  const m = l.checkpoint
+                  return (
+                    <div
+                      key={l.level}
+                      // The translate makes this its own stacking context, so the tooltip's z-index has to be set here
+                      className={`absolute bottom-2 flex -translate-x-1/2 flex-col items-center ${m ? 'z-30' : ''}`}
+                      style={{ left: l.x }}
+                      title={m ? undefined : `Level ${l.level} · ${formatDate(new Date(Math.round(l.day) * DAY_MS).toISOString().slice(0, 10))}`}
                     >
-                      Level {m.level}
-                    </button>
-                  </div>
-                ))}
+                      {m ? (
+                        <div className="tooltip tooltip-bottom mb-0.5">
+                          <div className="tooltip-content w-64 p-3 text-left shadow-lg">
+                            <p className="mb-1 text-xs font-semibold">{formatDate(m.date)}</p>
+                            <ul className="space-y-1 text-xs">
+                              {m.dungeons.map((d) => (
+                                <li key={d.name} className="flex gap-2">
+                                  <Castle className="mt-0.5 size-3.5 shrink-0 text-primary" aria-hidden />
+                                  <div>
+                                    <span className="font-semibold">Level {d.level}</span> · {d.name}
+                                    <span className="block opacity-70">
+                                      {d.zone} · {d.range}
+                                    </span>
+                                  </div>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          <button
+                            type="button"
+                            className="btn btn-outline btn-primary btn-xs h-5 gap-0.5 rounded-full bg-base-100 px-1.5 text-[10px] hover:bg-primary hover:text-white"
+                            aria-label={`Level ${m.level} checkpoint, ${formatDate(m.date)}`}
+                          >
+                            <Castle className="size-3" aria-hidden />
+                            {m.level}
+                          </button>
+                        </div>
+                      ) : (
+                        l.labeled && <span className="mb-0.5 text-[10px] leading-none text-base-content/60">{l.level}</span>
+                      )}
+                      <span className={`w-px ${l.labeled ? 'h-2' : 'h-1'} ${m ? 'bg-primary' : 'bg-base-content/40'}`} />
+                    </div>
+                  )
+                })}
               </div>
 
               {/* Character rows, with a faint line per day */}
@@ -351,10 +361,7 @@ export default function Timeline() {
                             Level {character.level} {character.race} {character.className}
                           </p>
                           <p className="opacity-70">{character.roles.join(', ')}</p>
-                          <p className="opacity-70">
-                            Plan reaches level {character.level} on{' '}
-                            {formatDate(new Date(Math.round(day) * DAY_MS).toISOString().slice(0, 10))}
-                          </p>
+                          <p className="opacity-70">{character.professions.join(', ')}</p>
                         </div>
                         <button type="button" className="rounded-full" aria-label={`${character.name}, level ${character.level}`}>
                           <ClassBadge character={character} />
