@@ -93,7 +93,7 @@ export default function PlanModal({ ref }: { ref: Ref<HTMLDialogElement> }) {
                   <tr>
                     <th>Date</th>
                     <th>Target level</th>
-                    <th>Dungeon</th>
+                    <th>Dungeon(s)</th>
                     <th>Level range</th>
                     <th>Zone</th>
                   </tr>
