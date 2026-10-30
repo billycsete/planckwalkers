@@ -2,36 +2,30 @@
 
 export type CharacterClass = 'Warrior' | 'Priest' | 'Mage' | 'Paladin' | 'Hunter' | 'Warlock' | 'Shaman' | 'Druid' | 'Rogue'
 
+// Anything not known yet is left out; empty roles or professions mean TBD
 export type Character = {
   name: string
-  level: number
-  className: CharacterClass
-  race: string
+  level?: number
+  className?: CharacterClass
+  race?: string
   roles: string[]
   professions: string[]
 }
 
+// Alphabetical by name, with anyone whose class isn't known yet at the end
 export const roster: Character[] = [
-  { name: 'Brannoc', level: 0, className: 'Warrior', race: 'Dwarf', roles: ['Tank'], professions: ['Mining', 'Blacksmithing'] },
-  { name: 'Elowyn', level: 0, className: 'Priest', race: 'Night Elf', roles: ['Healer'], professions: ['Herbalism', 'Alchemy'] },
-  { name: 'Fizzlecog', level: 6, className: 'Mage', race: 'Gnome', roles: ['DPS'], professions: ['Tailoring', 'Enchanting'] },
-  { name: 'Vanecroft', level: 0, className: 'Paladin', race: 'Human', roles: ['Tank', 'Healer'], professions: ['Mining', 'Engineering'] },
-  { name: 'Kaelith', level: 0, className: 'Hunter', race: 'Night Elf', roles: ['DPS'], professions: ['Skinning', 'Leatherworking'] },
-  { name: 'Grimsby', level: 0, className: 'Warlock', race: 'Human', roles: ['DPS'], professions: ['Tailoring', 'Enchanting'] },
-  { name: 'Thorga', level: 0, className: 'Shaman', race: 'Dwarf', roles: ['Healer', 'DPS'], professions: ['Herbalism', 'Alchemy'] },
-  {
-    name: 'Ashleaf',
-    level: 0,
-    className: 'Druid',
-    race: 'Night Elf',
-    roles: ['Tank', 'Healer', 'DPS'],
-    professions: ['Skinning', 'Leatherworking'],
-  },
-  { name: 'Tinkwhistle', level: 0, className: 'Rogue', race: 'Gnome', roles: ['DPS'], professions: ['Mining', 'Engineering'] },
-  { name: 'Baelgar', level: 0, className: 'Paladin', race: 'Dwarf', roles: ['Tank', 'Healer'], professions: ['Mining', 'Engineering'] },
-  { name: 'Zephyrine', level: 0, className: 'Hunter', race: 'Skyborne', roles: ['DPS'], professions: ['Skinning', 'Leatherworking'] },
-  { name: 'Hollis', level: 0, className: 'Warrior', race: 'Human', roles: ['DPS'], professions: ['Mining', 'Blacksmithing'] },
-  { name: 'Durgana', level: 0, className: 'Priest', race: 'Dwarf', roles: ['Healer'], professions: ['Tailoring', 'Enchanting'] },
-  { name: 'Nyxaria', level: 0, className: 'Rogue', race: 'Night Elf', roles: ['DPS'], professions: ['Herbalism', 'Alchemy'] },
-  { name: 'Pellinore', level: 0, className: 'Paladin', race: 'Human', roles: ['Healer'], professions: ['Herbalism', 'Alchemy'] },
+  { name: 'Alysia', level: 0, className: 'Mage', race: 'Skyborne', roles: ['DPS'], professions: [] },
+  { name: 'Ben', level: 0, className: 'Priest', race: 'Human', roles: ['Healer'], professions: [] },
+  { name: 'Billy', level: 0, className: 'Druid', race: 'Skyborne', roles: ['Healer'], professions: [] },
+  { name: 'Cesar', level: 0, className: 'Shaman', race: 'Dwarf', roles: ['DPS'], professions: [] },
+  { name: 'Garrett', level: 0, className: 'Paladin', race: 'Human', roles: ['DPS'], professions: [] },
+  { name: 'Kevin', level: 0, className: 'Shaman', race: 'Dwarf', roles: ['DPS'], professions: [] },
+  { name: 'Manuel', level: 0, className: 'Hunter', race: 'Human', roles: ['DPS'], professions: [] },
+  { name: 'Pat', level: 0, className: 'Paladin', race: 'Human', roles: ['Tank'], professions: [] },
+  { name: 'Reyn', level: 0, className: 'Warrior', roles: ['Tank'], professions: [] },
+  { name: 'Tommy C', level: 0, className: 'Mage', race: 'Human', roles: ['DPS'], professions: [] },
+  { name: 'Tommy R', level: 0, className: 'Paladin', race: 'Human', roles: ['DPS'], professions: [] },
+  { name: 'Greg', roles: [], professions: [] },
+  { name: 'Tiago', roles: [], professions: [] },
+  { name: 'Wyatt', roles: [], professions: [] },
 ]
