@@ -63,12 +63,17 @@ const milestones = checkpoints.map((c) => ({ ...c, day: toDay(c.date), level: Ma
 const nextMilestone = milestones.find((m) => m.day >= today) ?? milestones[milestones.length - 1]
 const launch = events.find((e) => e.label === 'WoW Forever')
 
-// The planned pace: level 0 at launch, level 5 by the end of launch day, then each checkpoint's level by its date
+// The first Sunday on or after launch; day 0 of the epoch was a Thursday, so (day + 4) % 7 is the weekday
+const firstSunday = launch ? launch.day + ((7 - ((launch.day + 4) % 7)) % 7) : 0
+
+// The planned pace: level 0 at launch, level 5 by the end of launch day, level 10 by the end of the first weekend,
+// then each checkpoint's level by its date
 const pace = [
   ...(launch
     ? [
         { day: launch.day, level: 0 },
         { day: launch.day + 1, level: 5 },
+        { day: firstSunday + 1, level: 10 },
       ]
     : []),
   ...milestones,
@@ -111,16 +116,26 @@ const eventTones: Record<string, string> = {
   'WoW Forever': 'bg-primary text-primary-content',
 }
 
+// "Human Paladin", or TBD while neither is known
+const describe = (character: Character) => [character.race, character.className].filter(Boolean).join(' ') || 'Details TBD'
+const listOrTbd = (items: string[], label: string) => (items.length ? items.join(', ') : `${label} TBD`)
+
 function ClassBadge({ character }: { character: Character }) {
   return (
     <div className="relative size-11">
-      <img
-        src={classIcons[character.className]}
-        alt=""
-        className="size-full drop-shadow-[0_2px_4px_rgb(0_0_0/0.5)]"
-        draggable={false}
-      />
-      <span className="badge badge-primary badge-xs absolute -right-1 -bottom-1 font-bold">{character.level}</span>
+      {character.className ? (
+        <img
+          src={classIcons[character.className]}
+          alt=""
+          className="size-full drop-shadow-[0_2px_4px_rgb(0_0_0/0.5)]"
+          draggable={false}
+        />
+      ) : (
+        <div className="grid size-full place-items-center rounded-full border border-dashed border-base-content/30 font-bold text-base-content/50">
+          ?
+        </div>
+      )}
+      <span className="badge badge-primary badge-xs absolute -right-1 -bottom-1 font-bold">{character.level ?? '?'}</span>
     </div>
   )
 }
@@ -160,7 +175,7 @@ export default function Timeline() {
         <h2 className="mb-3 text-3xl font-bold text-white">Leveling Timeline</h2>
         <p className="max-w-3xl text-base-content/80">
           The dates use roughly how long each level took a relaxed player in Classic, sped up by rested XP doubling
-          monster-kill XP. That works out to about 105 hours played from 5 to 60. WoW Forever's numbers aren't known
+          monster-kill XP. That works out to about 100 hours played from 10 to 60. WoW Forever's numbers aren't known
           yet, so check the pace at the first few checkpoints and shift later dates if needed.
         </p>
       </header>
@@ -208,14 +223,13 @@ export default function Timeline() {
               </div>
               {roster.map((character, i) => (
                 <div
-                  key={character.name}
+                  // Names can repeat, so the position keeps rows apart
+                  key={i}
                   className={`flex flex-col justify-center border-t border-base-content/10 px-4 ${i % 2 ? 'bg-base-200/40' : ''}`}
                   style={{ height: CHARACTER_ROW }}
                 >
                   <span className="truncate font-semibold">{character.name}</span>
-                  <span className="truncate text-xs text-base-content/60">
-                    {character.race} {character.className}
-                  </span>
+                  <span className="truncate text-xs text-base-content/60">{describe(character)}</span>
                 </div>
               ))}
             </div>
@@ -343,11 +357,12 @@ export default function Timeline() {
                 }}
               >
                 {roster.map((character, i) => {
-                  // Placed where the plan expects their level, so ahead of the today line means ahead of pace
-                  const day = expectedDay(character.level)
+                  // Placed where the plan expects their level, so ahead of the today line means ahead of pace.
+                  // An unknown level sits at the start, like a fresh character.
+                  const day = expectedDay(character.level ?? 0)
                   return (
                     <div
-                      key={character.name}
+                      key={i}
                       className={`relative border-t border-base-content/10 ${i % 2 ? 'bg-base-200/40' : ''}`}
                       style={{ height: CHARACTER_ROW }}
                     >
@@ -358,12 +373,16 @@ export default function Timeline() {
                         <div className="tooltip-content p-3 text-left text-xs">
                           <p className="font-semibold">{character.name}</p>
                           <p>
-                            Level {character.level} {character.race} {character.className}
+                            Level {character.level ?? '?'} · {describe(character)}
                           </p>
-                          <p className="opacity-70">{character.roles.join(', ')}</p>
-                          <p className="opacity-70">{character.professions.join(', ')}</p>
+                          <p className="opacity-70">{listOrTbd(character.roles, 'Roles')}</p>
+                          <p className="opacity-70">{listOrTbd(character.professions, 'Professions')}</p>
                         </div>
-                        <button type="button" className="rounded-full" aria-label={`${character.name}, level ${character.level}`}>
+                        <button
+                          type="button"
+                          className="rounded-full"
+                          aria-label={`${character.name}, level ${character.level ?? 'unknown'}`}
+                        >
                           <ClassBadge character={character} />
                         </button>
                       </div>

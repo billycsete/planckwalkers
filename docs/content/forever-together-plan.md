@@ -9,7 +9,7 @@ WoW is more fun when we get to play together! This plan aims to give the team a 
 - **Everyone roll a character on an Alliance race on a PvE server.** PvP is a sweat fest for gankers, and we must be in the same faction to group up.
 - **Everyone pick one character to go at this relaxed pace!** If you find you're enjoying the game and want to play more, create another character to go fast on, level up professions, or become a day trader at the AH making stacks of gold.
 - **Assumes approximately 3 hours of playtime a week each.** Same budget every week, start to finish. This allows us to play always with the double XP rested bonus.
-- **Rested-only after level 5.** Level 1–5 freely on launch day, then always log out in an inn or a capital city.
+- **Rested-only after level 10.** Level 1–10 freely through launch weekend, then always log out in an inn or a capital city.
 - **The level checkpoints are not strict.** Just a general target, the plan does not break down if people are + or - 2 levels.
 - **The plan is adjustable.** We can keep a pulse on if the leveling targets are too fast or slow and adjust the timeline accordingly.
 
@@ -20,7 +20,7 @@ WoW is more fun when we get to play together! This plan aims to give the team a 
 
 ## Leveling Timeline
 
-The dates use roughly how long each level took a relaxed player in Classic, sped up by rested XP doubling monster-kill XP. That works out to about 105 hours played from 5 to 60. WoW Forever's numbers aren't known yet, so check the pace at the first few checkpoints and shift later dates if needed.
+The dates use roughly how long each level took a relaxed player in Classic, sped up by rested XP doubling monster-kill XP. That works out to about 100 hours played from 10 to 60. WoW Forever's numbers aren't known yet, so check the pace at the first few checkpoints and shift later dates if needed.
 
 | Date | Target level | Dungeon | Level range | Zone |
 | --- | --- | --- | --- | --- |
