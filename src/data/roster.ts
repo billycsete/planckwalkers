@@ -1,4 +1,4 @@
-// Placeholder roster; keep in sync with docs/content/roster.md
+// Keep in sync with docs/content/roster.md
 
 export type CharacterClass = 'Warrior' | 'Priest' | 'Mage' | 'Paladin' | 'Hunter' | 'Warlock' | 'Shaman' | 'Druid' | 'Rogue'
 
