@@ -1,6 +1,6 @@
 import heroBg from '../assets/backgrounds/ironforge.webp'
 import { useRef } from 'react'
-import { Info } from 'lucide-react'
+import { Info, MessagesSquare } from 'lucide-react'
 import logo from '../assets/plankwalkers-logo-transparent.png'
 import PlanModal from '../components/PlanModal.tsx'
 
@@ -28,15 +28,21 @@ export default function Hero() {
             A small guild of friendly folks leveling together on a PvE Alliance server in WoW Forever. Adventures will be
             had, dungeons will be cleared, but a good nerd-life balance comes first!
           </p>
-          <button
-            type="button"
-            className="btn btn-primary"
-            aria-haspopup="dialog"
-            onClick={() => planModalRef.current?.showModal()}
-          >
-            Forever Together Plan
-            <Info className="size-4" />
-          </button>
+          <div className="flex flex-wrap justify-center gap-3">
+            <button
+              type="button"
+              className="btn btn-primary"
+              aria-haspopup="dialog"
+              onClick={() => planModalRef.current?.showModal()}
+            >
+              Forever Together Plan
+              <Info className="size-4" />
+            </button>
+            <a className="btn [--btn-color:#5865F2] [--btn-fg:white]" href="https://discord.gg/ZsKEPYJxzy" target="_blank" rel="noreferrer">
+              Join the Discord
+              <MessagesSquare className="size-4" />
+            </a>
+          </div>
         </div>
       </div>
       <PlanModal ref={planModalRef} />
