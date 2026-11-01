@@ -14,7 +14,7 @@
 | Reyn | 0 | Warrior | Human | Tank | TBD |
 | Sheyla | 0 | Hunter | Dwarf | DPS | TBD |
 | Tommy C | 0 | Mage | Human | DPS | TBD |
-| Tommy R | 0 | Paladin | Human | DPS | TBD |
+| Tommy R | 0 | Warlock | Human | DPS | TBD |
 | Greg | TBD | TBD | TBD | TBD | TBD |
 | Tiago | TBD | TBD | TBD | TBD | TBD |
 | Wyatt | TBD | TBD | TBD | TBD | TBD |
