@@ -13,8 +13,9 @@
 | Pat | 0 | Paladin | Human | Tank | TBD |
 | Reyn | 0 | Warrior | Human | Tank | TBD |
 | Sheyla | 0 | Hunter | Dwarf | DPS | TBD |
+| Tiago | 0 | Shaman | Dwarf | TBD | TBD |
 | Tommy C | 0 | Mage | Human | DPS | TBD |
 | Tommy R | 0 | Warlock | Human | DPS | TBD |
+| Wyatt | 0 | Warlock | Gnome | DPS | TBD |
 | Greg | TBD | TBD | TBD | TBD | TBD |
-| Tiago | TBD | TBD | TBD | TBD | TBD |
-| Wyatt | TBD | TBD | TBD | TBD | TBD |
+| Jerry | TBD | TBD | TBD | TBD | TBD |
