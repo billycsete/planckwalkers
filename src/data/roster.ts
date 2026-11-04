@@ -25,9 +25,10 @@ export const roster: Character[] = [
   { name: 'Pat', level: 0, className: 'Paladin', race: 'Human', roles: ['Tank'], professions: [] },
   { name: 'Reyn', level: 0, className: 'Warrior', race: 'Human', roles: ['Tank'], professions: [] },
   { name: 'Sheyla', level: 0, className: 'Hunter', race: 'Dwarf', roles: ['DPS'], professions: [] },
+  { name: 'Tiago', level: 0, className: 'Shaman', race: 'Dwarf', roles: [], professions: [] },
   { name: 'Tommy C', level: 0, className: 'Mage', race: 'Human', roles: ['DPS'], professions: [] },
   { name: 'Tommy R', level: 0, className: 'Warlock', race: 'Human', roles: ['DPS'], professions: [] },
+  { name: 'Wyatt', level: 0, className: 'Warlock', race: 'Gnome', roles: ['DPS'], professions: [] },
   { name: 'Greg', roles: [], professions: [] },
-  { name: 'Tiago', roles: [], professions: [] },
-  { name: 'Wyatt', roles: [], professions: [] },
+  { name: 'Jerry', roles: [], professions: [] },
 ]
