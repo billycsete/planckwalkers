@@ -7,33 +7,33 @@ export type Checkpoint = { date: string; dungeons: Dungeon[] }
 
 // Dates are ISO (YYYY-MM-DD) so they can be placed on the timeline; formatDate turns them back into "Dec 5, 2026"
 export const checkpoints: Checkpoint[] = [
-  { date: '2026-12-05', dungeons: [{ level: 16, name: 'Hall of Thanes (new)', range: '13–18', zone: 'Ironforge, Dun Morogh' }] },
-  { date: '2026-12-12', dungeons: [{ level: 18, name: 'Ruins of Lordaeron (new)', range: '15–20', zone: 'Tirisfal Glades' }] },
+  { date: '2026-11-14', dungeons: [{ level: 16, name: 'Hall of Thanes (new)', range: '13–18', zone: 'Ironforge, Dun Morogh' }] },
+  { date: '2026-11-21', dungeons: [{ level: 18, name: 'Ruins of Lordaeron (new)', range: '15–20', zone: 'Tirisfal Glades' }] },
   {
-    date: '2026-12-19',
+    date: '2026-11-28',
     dungeons: [
       { level: 19, name: 'Deadmines', range: '16–21*', zone: 'Westfall' },
       { level: 20, name: 'Wailing Caverns', range: '17–22*', zone: 'The Barrens' },
       { level: 21, name: 'Shadowfang Keep', range: '18–23*', zone: 'Silverpine Forest' },
     ],
   },
-  { date: '2027-01-02', dungeons: [{ level: 25, name: 'Blackfathom Deeps', range: '22–27*', zone: 'Ashenvale' }] },
+  { date: '2026-12-12', dungeons: [{ level: 25, name: 'Blackfathom Deeps', range: '22–27*', zone: 'Ashenvale' }] },
   {
-    date: '2027-01-09',
+    date: '2026-12-19',
     dungeons: [
       { level: 26, name: 'Stormwind Stockade', range: '23–28*', zone: 'Stormwind City' },
       { level: 27, name: 'Razorfen Kraul', range: '24–29*', zone: 'The Barrens' },
       { level: 27, name: 'Excavation Site: Wetlands (new)', range: '24–29', zone: 'Wetlands' },
     ],
   },
-  { date: '2027-01-16', dungeons: [{ level: 28, name: 'Gnomeregan', range: '25–30*', zone: 'Dun Morogh' }] },
-  { date: '2027-01-23', dungeons: [{ level: 31, name: 'City of Dalaran (new)', range: '28–33', zone: 'Alterac Mountains' }] },
+  { date: '2026-12-26', dungeons: [{ level: 28, name: 'Gnomeregan', range: '25–30*', zone: 'Dun Morogh' }] },
+  { date: '2027-01-02', dungeons: [{ level: 31, name: 'City of Dalaran (new)', range: '28–33', zone: 'Alterac Mountains' }] },
   {
-    date: '2027-01-30',
+    date: '2027-01-09',
     dungeons: [{ level: 33, name: 'Scarlet Monastery, all four wings', range: '30–35*', zone: 'Tirisfal Glades' }],
   },
   {
-    date: '2027-02-20',
+    date: '2027-02-06',
     dungeons: [
       { level: 37, name: 'Razorfen Downs', range: '34–39*', zone: 'The Barrens' },
       { level: 38, name: 'Uldaman', range: '35–40*', zone: 'Badlands' },
@@ -41,21 +41,21 @@ export const checkpoints: Checkpoint[] = [
     ],
   },
   {
-    date: '2027-04-03',
+    date: '2027-03-20',
     dungeons: [
       { level: 45, name: "Zul'Farrak", range: '42–47*', zone: 'Tanaris' },
       { level: 45, name: 'Maraudon', range: '42–47*', zone: 'Desolace' },
     ],
   },
   {
-    date: '2027-04-24',
+    date: '2027-04-17',
     dungeons: [
       { level: 48, name: 'Sunken Temple', range: '45–50*', zone: 'Swamp of Sorrows' },
       { level: 48, name: "Krol'dok Stronghold (new, outdoor)", range: '40–55', zone: 'Riverglades' },
     ],
   },
   {
-    date: '2027-05-15',
+    date: '2027-05-08',
     dungeons: [
       { level: 51, name: 'Blackrock Depths', range: '48–53*', zone: 'Blackrock Mountain' },
       {

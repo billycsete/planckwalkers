@@ -199,9 +199,10 @@ export default function Timeline() {
       <header className="mx-auto mb-8 max-w-[1200px]">
         <h2 className="mb-3 text-3xl font-bold text-white">Leveling Timeline</h2>
         <p className="max-w-3xl text-base-content/80">
-          The dates use roughly how long each level took a relaxed player in Classic, sped up by rested XP doubling
-          monster-kill XP. That works out to about 100 hours played from 10 to 60. WoW Forever's numbers aren't known
-          yet, so check the pace at the first few checkpoints and shift later dates if needed.
+          The dates assume about 300 hours played from 1 to 60, reaching 10 over launch weekend and 60 by Jul 31, 2027.
+          Each level's share of that time comes from WoW Forever's XP table, which matches Classic Era, with mob XP
+          rising as you level. That curve lines up with the split times of the first players to hit 60. Check the pace
+          at the first few checkpoints and shift later dates if needed.
         </p>
       </header>
       <div className="card overflow-hidden border border-base-content/10 bg-base-100">
