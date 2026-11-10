@@ -198,7 +198,7 @@ export default function Timeline() {
       {/* Keep this copy in sync with docs/content/forever-together-plan.md */}
       <header className="mx-auto mb-8 max-w-[1200px]">
         <h2 className="mb-3 text-3xl font-bold text-white">Leveling Timeline</h2>
-        <p className="max-w-3xl text-base-content/80">
+        <p className="max-w-2xl text-base-content/80">
           The dates assume about 300 hours played from 1 to 60, with a final ding to 60 date around the end of July 2027. The timeline's purpose is to set a casual pace of
           leveling as well as let groups stay in sync for dungeon runs.
         </p>
