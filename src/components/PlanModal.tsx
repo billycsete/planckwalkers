@@ -75,7 +75,7 @@ export default function PlanModal({ ref }: { ref: Ref<HTMLDialogElement> }) {
           <section>
             <h3 className="mb-2 text-lg font-semibold text-primary">Leveling Timeline</h3>
             <p>
-              The dates assume about 300 hours played from 1 to 60. The timeline's purpose is to set a casual pace of
+              The dates assume about 300 hours played from 1 to 60, with a final ding to 60 date around the end of July 2027. The timeline's purpose is to set a casual pace of
               leveling as well as let groups stay in sync for dungeon runs.
             </p>
             <div className="mt-8 overflow-x-auto rounded-box border border-base-content/10">

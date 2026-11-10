@@ -18,7 +18,7 @@ WoW is more fun when we get to play together! This plan aims to give the team a 
 
 ## Leveling Timeline
 
-The dates assume about 300 hours played from 1 to 60. The timeline's purpose is to set a casual pace of leveling as well as let groups stay in sync for dungeon runs.
+The dates assume about 300 hours played from 1 to 60, with a final ding to 60 date around the end of July 2027. The timeline's purpose is to set a casual pace of leveling as well as let groups stay in sync for dungeon runs.
 
 | Date | Target level | Dungeon | Level range | Zone |
 | --- | --- | --- | --- | --- |
