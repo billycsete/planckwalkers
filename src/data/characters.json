@@ -1,0 +1,113 @@
+{
+  "fetchedAt": "2026-11-10T11:02:35.288Z",
+  "characters": {
+    "Kali Mari": {
+      "name": "Kali Mari",
+      "level": 15,
+      "className": "Mage",
+      "race": "High Order Skyborne"
+    },
+    "Gliff Cavin": {
+      "name": "Gliff Cavin",
+      "level": 28,
+      "className": "Priest",
+      "race": "Dwarf"
+    },
+    "Nox Pox": {
+      "name": "Nox Pox",
+      "level": 26,
+      "className": "Warlock",
+      "race": "Gnome"
+    },
+    "Bjorn Wild": {
+      "name": "Bjorn Wild",
+      "level": 16,
+      "className": "Druid",
+      "race": "High Order Skyborne"
+    },
+    "Pan Sylvan": {
+      "name": "Pan Sylvan",
+      "level": 14,
+      "className": "Hunter",
+      "race": "Night Elf"
+    },
+    "Sielle Arcayus": {
+      "name": "Sielle Arcayus",
+      "level": 26,
+      "className": "Rogue",
+      "race": "Human"
+    },
+    "Sleast Astolin": {
+      "name": "Sleast Astolin",
+      "level": 13,
+      "className": "Hunter",
+      "race": "Human"
+    },
+    "Thumps Pumps": {
+      "name": "Thumps Pumps",
+      "level": 33,
+      "className": "Paladin",
+      "race": "Human"
+    },
+    "Thund Urstorm": {
+      "name": "Thund Urstorm",
+      "level": 16,
+      "className": "Shaman",
+      "race": "Dwarf"
+    },
+    "Zan Devistan": {
+      "name": "Zan Devistan",
+      "level": 29,
+      "className": "Hunter",
+      "race": "Human"
+    },
+    "Dreizig Lightsworn": {
+      "name": "Dreizig Lightsworn",
+      "level": 26,
+      "className": "Paladin",
+      "race": "Human"
+    },
+    "Emi Skye": {
+      "name": "Emi Skye",
+      "level": 21,
+      "className": "Druid",
+      "race": "High Order Skyborne"
+    },
+    "Conan Sequence": {
+      "name": "Conan Sequence",
+      "level": 32,
+      "className": "Warrior",
+      "race": "Night Elf"
+    },
+    "Criticus Maximus": {
+      "name": "Criticus Maximus",
+      "level": 15,
+      "className": "Shaman",
+      "race": "Dwarf"
+    },
+    "Varrah Frost": {
+      "name": "Varrah Frost",
+      "level": 20,
+      "className": "Mage",
+      "race": "Human"
+    },
+    "Elroth Galewyn": {
+      "name": "Elroth Galewyn",
+      "level": 20,
+      "className": "Rogue",
+      "race": "Human"
+    },
+    "Cheese Weaver": {
+      "name": "Cheese Weaver",
+      "level": 13,
+      "className": "Warlock",
+      "race": "Gnome"
+    },
+    "Davidd Goggins": {
+      "name": "Davidd Goggins",
+      "level": 22,
+      "className": "Rogue",
+      "race": "Night Elf"
+    }
+  }
+}

@@ -1,21 +1,39 @@
 # Roster
 
-| Character | Level | Class | Race | Preferred Roles | Professions |
-| --- | --- | --- | --- | --- | --- |
-| Alysia | 0 | Mage | Skyborne | DPS | TBD |
-| Ben | 0 | Priest | Human | Healer | TBD |
-| Billy | 0 | Druid | Skyborne | Healer | TBD |
-| Cesar | 0 | Shaman | Dwarf | DPS | TBD |
-| Danny | 0 | Rogue | Gnome | DPS | TBD |
-| Garrett | 0 | Paladin | Human | DPS | TBD |
-| Kevin | 0 | Shaman | Dwarf | DPS | TBD |
-| Manuel | 0 | Hunter | Human | DPS | TBD |
-| Pat | 0 | Paladin | Human | Tank | TBD |
-| Reyn | 0 | Warrior | Human | Tank | TBD |
-| Sheyla | 0 | Hunter | Dwarf | DPS | TBD |
-| Tiago | 0 | Shaman | Dwarf | TBD | TBD |
-| Tommy C | 0 | Mage | Human | DPS | TBD |
-| Tommy R | 0 | Warlock | Human | DPS | TBD |
-| Wyatt | 0 | Warlock | Gnome | DPS | TBD |
-| Greg | TBD | TBD | TBD | TBD | TBD |
-| Jerry | TBD | TBD | TBD | TBD | TBD |
+- **Alysia**
+  - Kali Mari
+- **Ben**
+  - Gliff Cavin
+- **Billy**
+  - Nox Pox
+  - Bjorn Wild
+  - Pan Sylvan
+- **Cesar**
+  - Sielle Arcayus
+- **Danny**
+  - Rocket Riot
+- **Diego**
+  - Sleast Astolin
+- **Garrett**
+  - Thumps Pumps
+- **Kevin**
+  - Thund Urstorm
+- **Manuel**
+  - Zan Devistan
+- **Pat**
+  - Dreizig Lightsworn
+- **Reyn**
+  - Emi Skye
+- **Sheyla**
+  - Lulu Lemonbeard
+- **Tiago**
+  - Conan Sequence
+  - Criticus Maximus
+- **Tommy C**
+  - Varrah Frost
+- **Tommy R**
+  - Elroth Galewyn
+- **Wyatt**
+  - Cheese Weaver
+- **Jerry**
+  - Davidd Goggins

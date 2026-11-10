@@ -1,5 +1,5 @@
 import { Castle } from 'lucide-react'
-import { useEffect, useRef, type PointerEvent } from 'react'
+import { useEffect, useRef, useState, type PointerEvent } from 'react'
 import druidIcon from '../assets/class-icons/druid_claws.png'
 import hunterIcon from '../assets/class-icons/hunter_bow.png'
 import mageIcon from '../assets/class-icons/mage_staff.png'
@@ -10,9 +10,10 @@ import shamanIcon from '../assets/class-icons/shaman_totem.png'
 import warlockIcon from '../assets/class-icons/warlock_demon_hand.png'
 import warriorIcon from '../assets/class-icons/warrior_sword.png'
 import { checkpoints, formatDate, keyDates } from '../data/plan.ts'
-import { roster, type Character, type CharacterClass } from '../data/roster.ts'
+import characterData from '../data/characters.json'
+import { roster, type CharacterClass } from '../data/roster.ts'
 
-const classIcons: Record<CharacterClass, string> = {
+const classIcons: Record<string, string> & Record<CharacterClass, string> = {
   Warrior: warriorIcon,
   Druid: druidIcon,
   Paladin: paladinIcon,
@@ -116,26 +117,38 @@ const eventTones: Record<string, string> = {
   'WoW Forever': 'bg-primary text-primary-content',
 }
 
-// "Human Paladin", or TBD while neither is known
-const describe = (character: Character) => [character.race, character.className].filter(Boolean).join(' ') || 'Details TBD'
-const listOrTbd = (items: string[], label: string) => (items.length ? items.join(', ') : `${label} TBD`)
+// What scripts/fetch-characters.ts found in the WoW Forever API, keyed by the roster's "Name Surname"
+type FoundCharacter = { name: string; level: number; className: string; race: string }
+const found: Record<string, FoundCharacter | undefined> = characterData.characters
 
-function ClassBadge({ character }: { character: Character }) {
+// Each person with the characters the lookup found, lowest level first so higher ones draw on top
+const people = roster.map((person) => ({
+  ...person,
+  found: person.characters
+    .map((fullName) => found[fullName])
+    .filter((c): c is FoundCharacter => !!c)
+    .sort((a, b) => a.level - b.level),
+}))
+
+function ClassIcon({ className, size }: { className: string; size: string }) {
+  const icon = classIcons[className]
+  return icon ? (
+    <img src={icon} alt="" className={`${size} drop-shadow-[0_2px_4px_rgb(0_0_0/0.5)]`} draggable={false} />
+  ) : (
+    // A class the icon set doesn't cover yet
+    <div
+      className={`${size} grid place-items-center rounded-full border border-dashed border-base-content/30 font-bold text-base-content/50`}
+    >
+      ?
+    </div>
+  )
+}
+
+function ClassBadge({ character }: { character: FoundCharacter }) {
   return (
     <div className="relative size-11">
-      {character.className ? (
-        <img
-          src={classIcons[character.className]}
-          alt=""
-          className="size-full drop-shadow-[0_2px_4px_rgb(0_0_0/0.5)]"
-          draggable={false}
-        />
-      ) : (
-        <div className="grid size-full place-items-center rounded-full border border-dashed border-base-content/30 font-bold text-base-content/50">
-          ?
-        </div>
-      )}
-      <span className="badge badge-primary badge-xs absolute -right-1 -bottom-1 font-bold">{character.level ?? '?'}</span>
+      <ClassIcon className={character.className} size="size-full" />
+      <span className="badge badge-primary badge-xs absolute -right-1 -bottom-1 font-bold">{character.level}</span>
     </div>
   )
 }
@@ -143,6 +156,18 @@ function ClassBadge({ character }: { character: Character }) {
 export default function Timeline() {
   const scrollerRef = useRef<HTMLDivElement>(null)
   const drag = useRef<{ x: number; scrollLeft: number } | null>(null)
+  // The character whose tooltip a tap pinned open; hover works on its own
+  const [pinned, setPinned] = useState<string | null>(null)
+
+  // A tap anywhere outside a character icon closes the pinned tooltip
+  useEffect(() => {
+    if (!pinned) return
+    const close = (e: globalThis.PointerEvent) => {
+      if (!(e.target as Element).closest('[data-character]')) setPinned(null)
+    }
+    document.addEventListener('pointerdown', close)
+    return () => document.removeEventListener('pointerdown', close)
+  }, [pinned])
 
   // Scroll so the given day sits just right of the sticky name column
   const scrollToDay = (day: number) => {
@@ -221,15 +246,17 @@ export default function Timeline() {
                   Level
                 </div>
               </div>
-              {roster.map((character, i) => (
+              {people.map((person, i) => (
                 <div
                   // Names can repeat, so the position keeps rows apart
                   key={i}
                   className={`flex flex-col justify-center border-t border-base-content/10 px-4 ${i % 2 ? 'bg-base-200/40' : ''}`}
                   style={{ height: CHARACTER_ROW }}
                 >
-                  <span className="truncate font-semibold">{character.name}</span>
-                  <span className="truncate text-xs text-base-content/60">{describe(character)}</span>
+                  <span className="truncate font-semibold">{person.name}</span>
+                  <span className="truncate text-xs text-base-content/60">
+                    {person.found.length ? person.found.map((c) => c.name).join(', ') : 'No characters found yet'}
+                  </span>
                 </div>
               ))}
             </div>
@@ -356,39 +383,47 @@ export default function Timeline() {
                   backgroundPosition: `${TRACK_PAD}px 0`,
                 }}
               >
-                {roster.map((character, i) => {
-                  // Placed where the plan expects their level, so ahead of the today line means ahead of pace.
-                  // An unknown level sits at the start, like a fresh character.
-                  const day = expectedDay(character.level ?? 0)
-                  return (
-                    <div
-                      key={i}
-                      className={`relative border-t border-base-content/10 ${i % 2 ? 'bg-base-200/40' : ''}`}
-                      style={{ height: CHARACTER_ROW }}
-                    >
-                      <div
-                        className="tooltip tooltip-right absolute top-1/2 z-10 -translate-x-1/2 -translate-y-1/2"
-                        style={{ left: dayX(day) }}
-                      >
-                        <div className="tooltip-content p-3 text-left text-xs">
-                          <p className="font-semibold">{character.name}</p>
-                          <p>
-                            Level {character.level ?? '?'} · {describe(character)}
-                          </p>
-                          <p className="opacity-70">{listOrTbd(character.roles, 'Roles')}</p>
-                          <p className="opacity-70">{listOrTbd(character.professions, 'Professions')}</p>
-                        </div>
-                        <button
-                          type="button"
-                          className="rounded-full"
-                          aria-label={`${character.name}, level ${character.level ?? 'unknown'}`}
+                {people.map((person, i) => (
+                  <div
+                    key={i}
+                    className={`relative border-t border-base-content/10 ${i % 2 ? 'bg-base-200/40' : ''}`}
+                    style={{ height: CHARACTER_ROW }}
+                  >
+                    {person.found.map((character) => {
+                      const open = pinned === character.name
+                      return (
+                        // Placed where the plan expects their level, so ahead of the today line means ahead of pace.
+                        // Hovered or pinned icons lift above a neighbor at a similar level.
+                        <div
+                          key={character.name}
+                          data-character
+                          className={`tooltip tooltip-right absolute top-1/2 -translate-x-1/2 -translate-y-1/2 hover:z-30 ${open ? 'tooltip-open z-30' : 'z-10'}`}
+                          style={{ left: dayX(expectedDay(character.level)) }}
                         >
-                          <ClassBadge character={character} />
-                        </button>
-                      </div>
-                    </div>
-                  )
-                })}
+                          <div className="tooltip-content flex items-center gap-3 p-3 text-left text-xs">
+                            <ClassIcon className={character.className} size="size-10 shrink-0" />
+                            <div>
+                              <p className="font-semibold">{character.name}</p>
+                              <p>Level {character.level}</p>
+                              <p className="opacity-70">
+                                {character.race} {character.className}
+                              </p>
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            className="rounded-full"
+                            aria-label={`${character.name}, level ${character.level} ${character.race} ${character.className}`}
+                            aria-expanded={open}
+                            onClick={() => setPinned(open ? null : character.name)}
+                          >
+                            <ClassBadge character={character} />
+                          </button>
+                        </div>
+                      )
+                    })}
+                  </div>
+                ))}
               </div>
 
               {/* Vertical guides drawn over everything below the date header */}
