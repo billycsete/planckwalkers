@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "fetch:characters": "node --env-file-if-exists=.env.local scripts/fetch-characters.ts"
   },
   "dependencies": {
     "lucide-react": "^1.59.0",

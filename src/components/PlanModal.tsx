@@ -50,14 +50,6 @@ export default function PlanModal({ ref }: { ref: Ref<HTMLDialogElement> }) {
                 become a day trader at the AH making stacks of gold.
               </li>
               <li>
-                <strong>Assumes approximately 3 hours of playtime a week each.</strong> Same budget every week, start
-                to finish. This allows us to play always with the double XP rested bonus.
-              </li>
-              <li>
-                <strong>Rested-only after level 10.</strong> Level 1–10 freely through launch weekend, then
-                always log out in an inn or a capital city.
-              </li>
-              <li>
                 <strong>The level checkpoints are not strict.</strong> Just a general target, the plan does not break
                 down if people are + or - 2 levels.
               </li>
@@ -83,9 +75,8 @@ export default function PlanModal({ ref }: { ref: Ref<HTMLDialogElement> }) {
           <section>
             <h3 className="mb-2 text-lg font-semibold text-primary">Leveling Timeline</h3>
             <p>
-              The dates use roughly how long each level took a relaxed player in Classic, sped up by rested XP doubling
-              monster-kill XP. That works out to about 100 hours played from 10 to 60. WoW Forever's numbers aren't
-              known yet, so check the pace at the first few checkpoints and shift later dates if needed.
+              The dates assume about 300 hours played from 1 to 60, with a final ding to 60 date around the end of July 2027. The timeline's purpose is to set a casual pace of
+              leveling as well as let groups stay in sync for dungeon runs.
             </p>
             <div className="mt-8 overflow-x-auto rounded-box border border-base-content/10">
               <table className="table table-sm">

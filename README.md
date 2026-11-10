@@ -37,3 +37,9 @@ One page:
 
 The roster and plan live in `src/data/roster.ts` and `src/data/plan.ts`. Their written versions
 are in `docs/content/`, so update both when something changes.
+
+The roster lists each person's WoW Forever characters by in-game name and surname. Their level,
+class and race come from the Blizzard API: `npm run fetch:characters` looks them up and writes
+`src/data/characters.json`, which the timeline reads. It needs `BLIZZARD_CLIENT_ID` and
+`BLIZZARD_CLIENT_SECRET` in `.env.local`. The deploy runs it before every build, and once an hour,
+using the repo secrets of the same names. Characters the lookup can't find are left off the chart.
